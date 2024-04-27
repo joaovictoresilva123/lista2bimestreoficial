@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             altura = altura_digitada.text.toString().toDouble()
             peso = peso_digitada.text.toString().toDouble()
 
-            caloriasqueimadas.text = calculateCaloriesBurned().toString()
+            caloriasqueimadas.text = calcularcaloriasqueimadas().toString()
         }
     }
 
@@ -59,10 +59,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
     override fun onSensorChanged(event: SensorEvent?) {
         if (event?.sensor?.type == Sensor.TYPE_GYROSCOPE) {
-            val currentTime = System.currentTimeMillis()
-            if (currentTime - tempoultimopasso > intervalopassos) {
+            val tempoatual = System.currentTimeMillis()
+            if (tempoatual - tempoultimopasso > intervalopassos) {
                 contarPassos()
-                tempoultimopasso = currentTime
+                tempoultimopasso = tempoatual
             }
         }
     }
@@ -76,7 +76,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         contadordepassosmostrar.text = contarpassos.toString()
     }
 
-    private fun calculateCaloriesBurned(): Double {
+    private fun calcularcaloriasqueimadas(): Double {
+        //professor aq eu utilizei para fzr o calculo das calorias uma formula feita pela MET
         val valorMET = 3.5
         val caloriasporkg = valorMET * 3.5
         val caloriesporpasso = caloriasporkg * (peso / 60)
@@ -84,3 +85,4 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         return contarpassos * caloriesporpasso
     }
 }
+
